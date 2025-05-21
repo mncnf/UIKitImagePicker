@@ -8,10 +8,17 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State var showingImagePicker = false
+
     var body: some View {
-        Button(action: {}) {
+        Button(action: {
+            showingImagePicker = true
+        }) {
             Text("フォトライブラリー")
         }
+        .sheet(isPresented: $showingImagePicker, content: {
+            ImagePicker()
+        })
     }
 }
 
