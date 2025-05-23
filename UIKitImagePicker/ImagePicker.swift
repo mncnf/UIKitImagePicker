@@ -20,6 +20,10 @@ struct ImagePicker: UIViewControllerRepresentable {
 
     func updateUIViewController(_ uiViewController: PHPickerViewController, context: Context) {}
 
+    func makeCordinator() -> Cordinator {
+        return Cordinator(parent: self) // selfで構造体を指定
+    }
+
     class Cordinator: PHPickerViewControllerDelegate {
         let parent: ImagePicker
 
