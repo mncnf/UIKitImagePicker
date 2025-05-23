@@ -9,6 +9,8 @@ import PhotosUI
 import SwiftUI
 
 struct ImagePicker: UIViewControllerRepresentable {
+    @Binding var selectedImage: UIImage
+
     func makeUIViewController(context: Context) -> PHPickerViewController {
         var configuration = PHPickerConfiguration()
         configuration.filter = .images
@@ -17,4 +19,24 @@ struct ImagePicker: UIViewControllerRepresentable {
     }
 
     func updateUIViewController(_ uiViewController: PHPickerViewController, context: Context) {}
+
+    class Cordinator: PHPickerViewControllerDelegate {
+        let parent: ImagePicker
+
+        init(parent: ImagePicker) {
+            self.parent = parent
+        }
+
+        func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+            picker.dismiss(animated: true)
+
+            for image in results {
+                image.itemProvider.loadObject(ofClass: UIImage.self, completionHandler: { image, _ in
+                    if let image = image as? UIImage {
+                        self.parent.selectedImage = image
+                    }
+                })
+            }
+        }
+    }
 }
