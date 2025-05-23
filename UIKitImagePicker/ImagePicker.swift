@@ -15,6 +15,8 @@ struct ImagePicker: UIViewControllerRepresentable {
         var configuration = PHPickerConfiguration()
         configuration.filter = .images
         let picker = PHPickerViewController(configuration: configuration)
+        // PHPickerViewControllerの処理の一部をcoordinatorで実施（クラスや構造体の一部を他のクラスでできるようにする）
+        picker.delegate = context.coordinator
         return picker
     }
 
@@ -24,6 +26,7 @@ struct ImagePicker: UIViewControllerRepresentable {
         return Cordinator(parent: self) // selfで構造体を指定
     }
 
+    // Delegate: クラスや構造体の一部を他のクラスでできるようにする
     class Cordinator: PHPickerViewControllerDelegate {
         let parent: ImagePicker
 
